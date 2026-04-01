@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'http://localhost:10000/api';
+  private apiUrl = 'https://code-track-gmt9.onrender.com/api';
 
   constructor(private http: HttpClient) {}
 
