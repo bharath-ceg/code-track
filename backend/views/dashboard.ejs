@@ -32,9 +32,9 @@
             <div style="margin-top: 30px; text-align: center; padding: 25px; background: #eff6ff; border: 1px dashed #93c5fd; border-radius: 12px;">
                 <p style="margin-top: 0; color: var(--text-main); font-weight: 500;">Proceed to your dedicated portal endpoint for full functionalities:</p>
                 <% if(user.role === 'Student') { %>
-                    <button onclick="navigateWithToken('https://codetrack-student.vercel.app')" class="btn">Launch Development Environment (Angular)</button>
+                    <button onclick="navigateWithToken('https://codetrack-student-workspace.vercel.app')" class="btn">Launch Development Environment (Angular)</button>
                 <% } else { %>
-                    <button onclick="navigateWithToken('https://codetrack-admin-kna9ca01h-bharath-cegs-projects.vercel.app')" class="btn" style="background: #ffffff; border-color: #cbd5e1;">Connect to Admin Oversight (React)</button>
+                    <button onclick="navigateWithToken('https://codetrack-admin-portal.vercel.app')" class="btn" style="background: #ffffff; border-color: #cbd5e1;">Connect to Admin Oversight (React)</button>
                 <% } %>
             </div>
         </main>
