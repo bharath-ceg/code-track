@@ -32,15 +32,22 @@
             <div style="margin-top: 30px; text-align: center; padding: 25px; background: #eff6ff; border: 1px dashed #93c5fd; border-radius: 12px;">
                 <p style="margin-top: 0; color: var(--text-main); font-weight: 500;">Proceed to your dedicated portal endpoint for full functionalities:</p>
                 <% if(user.role === 'Student') { %>
-                    <a href="http://localhost:4200" class="btn">Launch Development Environment (Angular)</a>
+                    <button onclick="navigateWithToken('https://codetrack-student.vercel.app')" class="btn">Launch Development Environment (Angular)</button>
                 <% } else { %>
-                    <a href="http://localhost:3000" class="btn" style="background: #ffffff; border-color: #cbd5e1;">Connect to Admin Oversight (React)</a>
+                    <button onclick="navigateWithToken('https://codetrack-admin-kna9ca01h-bharath-cegs-projects.vercel.app')" class="btn" style="background: #ffffff; border-color: #cbd5e1;">Connect to Admin Oversight (React)</button>
                 <% } %>
             </div>
         </main>
     </div>
 
     <script>
+        function navigateWithToken(baseUrl) {
+            const token = localStorage.getItem('token');
+            // Check if local dev or prod
+            const destination = baseUrl.includes('vercel.app') ? baseUrl : baseUrl;
+            window.location.href = `${destination}?token=${token}`;
+        }
+
         document.getElementById('logoutBtn').addEventListener('click', async () => {
             const btn = document.getElementById('logoutBtn');
             btn.innerText = 'Terminating...';
