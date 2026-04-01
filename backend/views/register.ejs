@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - CodeTrack Auth</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="auth-wrapper">
+        <div class="container">
+            <h2>Join CodeTrack</h2>
+            <p class="subtitle">Enroll in the CSE Department coding environment</p>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="name" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Register Number</label>
+                    <input type="text" id="registerNumber" required placeholder="URK20CS1001">
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <div class="form-group" style="flex: 1;">
+                        <label>Department</label>
+                        <input type="text" id="department" value="CSE" required>
+                    </div>
+                    <div class="form-group" style="flex: 2;">
+                        <label>Email</label>
+                        <input type="email" id="email" required placeholder="mail@inst.edu">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" required placeholder="••••••••">
+                </div>
+                <button type="submit">Create Credentials</button>
+            </form>
+            <p>Already joined? <a href="/login">Authenticate instead</a></p>
+            <div id="message" class="message"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+            btn.innerText = 'Provisioning...';
+            btn.style.opacity = '0.7';
+
+            const payload = {
+                name: document.getElementById('name').value,
+                registerNumber: document.getElementById('registerNumber').value,
+                department: document.getElementById('department').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value
+            };
+            const msgEl = document.getElementById('message');
+
+            try {
+                const res = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await res.json();
+                btn.innerText = originalText;
+                btn.style.opacity = '1';
+                msgEl.className = 'message show';
+
+                if (res.ok) {
+                    msgEl.style.background = '#dcfce7';
+                    msgEl.style.color = '#166534';
+                    msgEl.style.border = '1px solid #bbf7d0';
+                    msgEl.innerText = 'Credentials verified! Routing to gateway...';
+                    setTimeout(() => window.location.href = '/login', 2000);
+                } else {
+                    msgEl.style.background = '#fee2e2';
+                    msgEl.style.color = '#991b1b';
+                    msgEl.style.border = '1px solid #fecaca';
+                    msgEl.innerText = data.message || 'Registration failed';
+                }
+            } catch (err) {
+                btn.innerText = originalText;
+                btn.style.opacity = '1';
+                msgEl.className = 'message show';
+                msgEl.style.background = '#fee2e2';
+                msgEl.style.color = '#991b1b';
+                msgEl.style.border = '1px solid #fecaca';
+                msgEl.innerText = 'Connection to gateway failed.';
+            }
+        });
+    </script>
+</body>
+</html>

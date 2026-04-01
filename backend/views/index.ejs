@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="landing-wrapper">
+        <header class="landing-header">
+            <div class="logo-mark">C</div>
+            <h1>CodeTrack Unified Hub</h1>
+            <p>Select your operational portal to enter the ecosystem.</p>
+        </header>
+
+        <div class="portal-grid">
+            <!-- Student Portal -->
+            <a href="http://localhost:4200" class="portal-card student-card">
+                <div class="card-icon">⚡</div>
+                <h3>Student Workspace</h3>
+                <p>Launch the interactive IDE environment. Practice coding challenges securely.</p>
+                <span class="portal-tag">Angular UI</span>
+            </a>
+
+            <!-- Admin Portal -->
+            <a href="http://localhost:3000" class="portal-card admin-card">
+                <div class="card-icon">🛡️</div>
+                <h3>Admin Dashboard</h3>
+                <p>Manage the challenge repository and overview global student telemetry.</p>
+                <span class="portal-tag">React UI</span>
+            </a>
+
+            <!-- Auth/EJS Portal -->
+            <a href="/login" class="portal-card auth-card">
+                <div class="card-icon">🔑</div>
+                <h3>Identity Provider (Login)</h3>
+                <p>Access the backend rendering layer to establish an initial session token.</p>
+                <span class="portal-tag">Express / EJS</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

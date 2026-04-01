@@ -1,0 +1,94 @@
+<div class="app-layout">
+  
+  <!-- Top Navigation -->
+  <header class="navbar">
+    <div class="logo">
+      <div class="logo-icon">C</div>
+      <h1>{{ title }}</h1>
+    </div>
+    <div class="nav-links">
+      <span class="status-indicator">Connected to Workspace</span>
+    </div>
+  </header>
+
+  <div class="main-workspace">
+    
+    <!-- Left Pane: Problem List -->
+    <div class="pane problems-pane">
+      <div class="pane-header">
+        <h2>Available Challenges</h2>
+        <span class="badge">{{ problems.length }}</span>
+      </div>
+      
+      <div class="problem-list">
+        <div *ngIf="problems.length === 0" class="empty-state">
+          No active challenges found.
+        </div>
+        
+        <div class="problem-card" 
+             *ngFor="let prob of problems" 
+             [class.active]="selectedProblemId === prob._id"
+             (click)="selectProblem(prob)">
+          
+          <div class="card-header">
+            <h3>{{ prob.title }}</h3>
+            <span class="difficulty-badge" [ngClass]="prob.difficulty.toLowerCase()">
+              {{ prob.difficulty }}
+            </span>
+          </div>
+          
+          <p class="description">{{ prob.description }}</p>
+          
+          <div class="tags" *ngIf="prob.tags?.length > 0">
+            <span class="tag" *ngFor="let tag of prob.tags">{{ tag }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Pane: Code Editor emulation -->
+    <div class="pane editor-pane">
+      <div class="pane-header" style="justify-content: space-between;">
+        <h2>Solution Editor</h2>
+        <span *ngIf="selectedProblem" class="active-problem-tag">Editing: {{ selectedProblem.title }}</span>
+      </div>
+      
+      <div *ngIf="!selectedProblem" class="empty-editor">
+        Select a challenge from the left to start coding.
+      </div>
+
+      <div *ngIf="selectedProblem" class="ide-container">
+        
+        <!-- Mock IDE toolbar -->
+        <div class="ide-toolbar">
+          <div class="window-controls">
+            <span class="dot close"></span>
+            <span class="dot minimize"></span>
+            <span class="dot expand"></span>
+          </div>
+          <div class="file-name">solution.js</div>
+        </div>
+        
+        <!-- The Textarea simulating Code Editor -->
+        <div class="editor-wrapper">
+          <textarea 
+            [(ngModel)]="codeSubmission" 
+            placeholder="// Write your logic here...&#10;function solve() {&#10;&#10;}">
+          </textarea>
+        </div>
+
+        <div class="action-bar">
+          <div class="status-msg" [class.success]="submitStatus === 'Submitted Successfully! Status: Accepted'" [class.show]="submitStatus">
+            {{ submitStatus }}
+          </div>
+          <button class="submit-btn" (click)="submit()" [disabled]="isSubmitting">
+            <span *ngIf="!isSubmitting">Run ></span>
+            <span *ngIf="isSubmitting">Executing...</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

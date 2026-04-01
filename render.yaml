@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: codetrack-backend
+    env: node
+    buildCommand: npm install
+    startCommand: node backend/app.js
+    envVars:
+      - key: MONGO_URI
+        sync: false
+      - key: SESSION_SECRET
+        sync: false

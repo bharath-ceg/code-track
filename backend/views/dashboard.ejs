@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - CodeTrack Setup</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h2 style="margin: 0;">CodeTrack Command Center</h2>
+            <div class="user-info">
+                <span style="font-size: 14px; color: var(--text-muted);"><%= user.name %> [<span style="color: var(--primary);"><%= user.role %></span>]</span>
+                <button id="logoutBtn" class="logout-btn">Terminate Session</button>
+            </div>
+        </header>
+
+        <main>
+            <p style="text-align: left; margin-bottom: 5px;">Identity Profile Context</p>
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Department Assignment</div>
+                    <div class="stat-value"><%= user.department %></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Registration ID</div>
+                    <div class="stat-value"><%= user.registerNumber %></div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px; text-align: center; padding: 25px; background: #eff6ff; border: 1px dashed #93c5fd; border-radius: 12px;">
+                <p style="margin-top: 0; color: var(--text-main); font-weight: 500;">Proceed to your dedicated portal endpoint for full functionalities:</p>
+                <% if(user.role === 'Student') { %>
+                    <a href="http://localhost:4200" class="btn">Launch Development Environment (Angular)</a>
+                <% } else { %>
+                    <a href="http://localhost:3000" class="btn" style="background: #ffffff; border-color: #cbd5e1;">Connect to Admin Oversight (React)</a>
+                <% } %>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            const btn = document.getElementById('logoutBtn');
+            btn.innerText = 'Terminating...';
+            await fetch('/api/auth/logout', { method: 'POST' });
+            localStorage.removeItem('token');
+            window.location.href = '/login';
+        });
+    </script>
+</body>
+</html>
