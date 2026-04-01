@@ -94,6 +94,14 @@ export class AppComponent implements OnInit {
   constructor(private api: ApiService) {}
 
   ngOnInit() {
+    // Cross-Domain SSO: Capture token from URL if redirected from EJS Gateway
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlToken = urlParams.get('token');
+    if (urlToken) {
+      localStorage.setItem('token', urlToken);
+      window.history?.replaceState({}, document.title, window.location.pathname); 
+    }
+
     this.api.getProblems().subscribe({
       next: (data) => this.problems = data,
       error: (err) => console.error(err)

@@ -9,6 +9,13 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Cross-Domain SSO: Capture token from URL if redirected from EJS Gateway
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlToken = urlParams.get('token');
+    if (urlToken) {
+      localStorage.setItem('token', urlToken);
+      window.history.replaceState({}, document.title, window.location.pathname); // Clean URL
+    }
     fetchData();
   }, []);
 
